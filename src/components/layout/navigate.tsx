@@ -10,7 +10,7 @@ function Navigate() {
             <Button onClick={() => navigate('/servicos')}>
                 Serviços
             </Button>
-            <Button variant="secondary" onClick={() => navigate('/portifolio')}>
+            <Button variant="secondary" onClick={() => navigate('/portfolio')}>
                 Portfólio
             </Button>
             <Button variant="secondary" onClick={() => navigate('/blog')}>
