@@ -1,73 +1,31 @@
-export type ServiceType = 'prototipagem' | 'desenvolvimento'
+/**
+ * Mock data para desenvolvimento do site da Prototipe.
+ *
+ * Estes dados são provisórios: quando o backend (PostgreSQL via API) estiver
+ * pronto, as páginas passarão a consumir os dados reais — ver README.md
+ * (seções "Configuration" e "Portfolio and Content Structure").
+ *
+ * Como migrar depois:
+ * 1. As páginas/componentes devem importar estes dados somente via helpers
+ *    (getBySlug / filterBy...), nunca iterando o array com lógica de negócio
+ *    duplicada — assim a troca para a API fica localizada neste arquivo.
+ * 2. SUBSTITUIR o retorno dos helpers por chamadas fetch/axios.
+ *
+ * Os tipos de domínio vivem em `@/types` e são importados aqui.
+ */
+import type {
+  BlogPost,
+  CompanyInfo,
+  PortfolioItem,
+  SelectionProcess,
+  Service,
+  ServiceType,
+} from '@/types'
 
-export type SecondaryCategory = 'web' | 'mobile' | 'sistema'
-
-export interface Service {
-  id: string
-  slug: string
-  title: string
-  tagline: string
-  description: string
-  deliverables: string[]
-  process: { step: string; description: string }[]
-  averageTime: string
-}
-
-export interface PortfolioItem {
-  id: string
-  slug: string
-  client: string
-  title: string
-  serviceType: ServiceType
-  secondaryCategory: SecondaryCategory
-  thumbnail: string
-  tags: string[]
-  challenge: string
-  visualSolution: string
-  engineering: string
-  result: string
-  productStage?: string
-  mainDeliverable?: string
-  toolsStack?: string[]
-  successMetrics?: string
-  averageTime?: string
-}
-
-export interface BlogPost {
-  id: string
-  slug: string
-  title: string
-  excerpt: string
-  content: string
-  author: string
-  publishedAt: string
-  tags: string[]
-  cover: string
-}
-
-export interface Company {
-  name: string
-  history: string
-  mission: string
-  vision: string
-  values: { title: string; description: string }[]
-  stats: { label: string; value: string }[]
-}
-
-export interface SelectionProcessStep {
-  step: string
-  period: string
-  description: string
-}
-
-export interface SelectionProcess {
-  title: string
-  description: string
-  isOpen: boolean
-  requirements: string[]
-  schedule: SelectionProcessStep[]
-  instructions: string[]
-}
+// ---------------------------------------------------------------------------
+// Serviços — apresentação dual e equilibrada das duas frentes (AGENTS.md:
+// "Dual-Service Presentation").
+// ---------------------------------------------------------------------------
 
 export const MOCK_SERVICES: Service[] = [
   {
@@ -77,6 +35,13 @@ export const MOCK_SERVICES: Service[] = [
     tagline: 'Valide sua ideia antes de investir em desenvolvimento',
     description:
       'Do wireframe à maquete física: transformamos ideias em modelos tangíveis e testáveis. Trabalhamos com prototipagem digital (wireframes, protótipos navegáveis e testes de usabilidade) e prototipagem física com modelagem 3D, corte em MDF, acrílico e impressão de filamento — para você validar hipóteses com baixo investimento.',
+    icon: 'PenTool',
+    features: [
+      'Validação com usuários reais',
+      'Prototipagem física e digital',
+      'Baixo investimento inicial',
+      'Transição direta para o desenvolvimento',
+    ],
     deliverables: [
       'Wireframes de baixa e alta fidelidade',
       'Protótipo navegável (Figma/Marvel)',
@@ -114,6 +79,13 @@ export const MOCK_SERVICES: Service[] = [
     tagline: 'Do conceito validado ao produto em produção',
     description:
       'Sites, aplicações web/mobile e sistemas internos sob medida, construídos com engenharia rigorosa: código versionado e documentado, testes e acompanhamento próximo de cada entrega. Ideal para empresas e startups que já validaram a ideia e precisam de um produto funcional e confiável.',
+    icon: 'Code2',
+    features: [
+      'Código versionado e documentado',
+      'Entregas parciais com acompanhamento',
+      'Mobile-first e acessível',
+      'Transferência de conhecimento ao final',
+    ],
     deliverables: [
       'Sites institucionais e landing pages',
       'Aplicações web e mobile',
@@ -146,7 +118,16 @@ export const MOCK_SERVICES: Service[] = [
   },
 ]
 
+// ---------------------------------------------------------------------------
+// Portfólio — 4 cases cobrindo os dois segmentos.
+// Conteúdo segue a tabela "Portfolio Fields by Case Type" do README e as
+// táticas para EJs com poucos cases (site próprio como case, redesigns
+// conceituais de negócios locais).
+// ---------------------------------------------------------------------------
+
 export const MOCK_PORTFOLIO: PortfolioItem[] = [
+  // Case de prototipagem digital (mobile) — validação de hipótese com
+  // cliente local antes de investir no desenvolvimento.
   {
     id: 'pf-001',
     slug: 'app-sabor-da-serra',
@@ -171,6 +152,8 @@ export const MOCK_PORTFOLIO: PortfolioItem[] = [
       '92% de conclusão de pedidos no protótipo, NPS 78 e hipótese de demanda validada',
     averageTime: '3 semanas',
   },
+  // Case de prototipagem digital (web) — Tática C do README: redesign
+  // conceitual proativo para negócio local com site desatualizado.
   {
     id: 'pf-002',
     slug: 'redesign-otica-visao-clara',
@@ -195,6 +178,8 @@ export const MOCK_PORTFOLIO: PortfolioItem[] = [
       'Clareza da proposta de valor de 4,2 → 8,7 em avaliação com usuários',
     averageTime: '2 semanas',
   },
+  // Case de desenvolvimento (web) — Tática B do README: o próprio site da
+  // EJ como case nº 1 de desenvolvimento.
   {
     id: 'pf-003',
     slug: 'site-prototipe',
@@ -219,6 +204,8 @@ export const MOCK_PORTFOLIO: PortfolioItem[] = [
       'Carregamento < 3s em 4G, portfólio e blog 100% gerenciáveis via CMS',
     averageTime: '8 semanas',
   },
+  // Case de desenvolvimento (sistema interno) — cliente PME imaginário com
+  // resultado quantificado.
   {
     id: 'pf-004',
     slug: 'agendamento-clinica-vida-mais',
@@ -245,6 +232,10 @@ export const MOCK_PORTFOLIO: PortfolioItem[] = [
   },
 ]
 
+// ---------------------------------------------------------------------------
+// Blog — artigos, case studies e novidades internas (README: "Blog Platform").
+// ---------------------------------------------------------------------------
+
 export const MOCK_BLOG_POSTS: BlogPost[] = [
   {
     id: 'bp-001',
@@ -257,7 +248,7 @@ export const MOCK_BLOG_POSTS: BlogPost[] = [
     author: 'Ana Beatriz',
     publishedAt: '2026-08-12',
     tags: ['Prototipagem', 'UX', 'Negócios'],
-    cover: '/blog/prototipagem-reduz-custos.svg',
+    thumbnail: '/blog/prototipagem-reduz-custos.svg',
   },
   {
     id: 'bp-002',
@@ -270,7 +261,7 @@ export const MOCK_BLOG_POSTS: BlogPost[] = [
     author: 'Carlos Eduardo',
     publishedAt: '2026-07-28',
     tags: ['Desenvolvimento', 'Empresa Júnior', 'Case'],
-    cover: '/blog/ej-site-proprio-case-prototipe.svg',
+    thumbnail: '/blog/ej-site-proprio-case-prototipe.svg',
   },
   {
     id: 'bp-003',
@@ -283,11 +274,16 @@ export const MOCK_BLOG_POSTS: BlogPost[] = [
     author: 'Equipe Prototipe',
     publishedAt: '2026-09-14',
     tags: ['Institucional', 'Novidades'],
-    cover: '/blog/expansao-desenvolvimento-software.svg',
+    thumbnail: '/blog/expansao-desenvolvimento-software.svg',
   },
 ]
 
-export const MOCK_COMPANY: Company = {
+// ---------------------------------------------------------------------------
+// Dados institucionais — página "Quem Somos" (AGENTS.md: conteúdo estático
+// deve viver em constantes, nunca hardcoded no JSX).
+// ---------------------------------------------------------------------------
+
+export const MOCK_COMPANY: CompanyInfo = {
   name: 'Prototipe',
   history:
     'Fundada em Montes Claros, no coração do norte de Minas Gerais, a Prototipe começou como uma empresa júnior focada em prototipagem física: modelagem 3D e fabricação em MDF, acrílico e impressão de filamento. Com o tempo, o conhecimento teórico dos estudantes de Ciência da Computação encontrou a prática de mercado, e a empresa expandiu sua atuação para o desenvolvimento de aplicações e websites para clientes reais — diversificando o portfólio e ampliando o impacto regional.',
@@ -324,6 +320,11 @@ export const MOCK_COMPANY: Company = {
     { label: 'Anos de história', value: '5' },
   ],
 }
+
+// ---------------------------------------------------------------------------
+// Processo Seletivo — Persona 3 "Future Member" (AGENTS.md): cronograma,
+// requisitos e instruções para estudantes que querem entrar na empresa.
+// ---------------------------------------------------------------------------
 
 export const MOCK_SELECTION_PROCESS: SelectionProcess = {
   title: 'Processo Seletivo Prototipe',
@@ -368,8 +369,38 @@ export const MOCK_SELECTION_PROCESS: SelectionProcess = {
     'Não é necessário conhecimento técnico prévio — avaliamos perfil e vontade de aprender.',
     'Dúvidas? Fale conosco pela página de contato ou pelo nosso Instagram oficial.',
   ],
+  faq: [
+    {
+      question: 'Preciso ter experiência prévia para participar?',
+      answer:
+        'Não. Avaliamos perfil, vontade de aprender e comprometimento. A empresa oferece treinamentos e mentoria para os novos membros.',
+    },
+    {
+      question: 'Preciso ser estudante de Ciência da Computação?',
+      answer:
+        'Não. O processo seletivo é aberto a estudantes de todos os cursos — idealizamos equipes multidisciplinares para prototipagem, desenvolvimento, marketing e gestão.',
+    },
+    {
+      question: 'Posso participar do processo seletivo mais de uma vez?',
+      answer:
+        'Sim. Quem não é selecionado recebe feedback construtivo e é fortemente incentivado a tentar novamente na próxima edição.',
+    },
+    {
+      question: 'O trabalho na empresa júnior é remunerado?',
+      answer:
+        'Os projetos podem gerar distribuição de resultados aos membros, conforme as regras do movimento empresa júnior e o desempenho em projetos.',
+    },
+  ],
 }
 
+// ---------------------------------------------------------------------------
+// Helpers de acesso — concentram as consultas que as páginas precisam hoje.
+// Quando o backend estiver pronto [TODO], apenas estes helpers serão
+// reescritos para buscar da API (ex.: `lib/api.ts` com VITE_API_BASE_URL),
+// sem alterar nenhum componente.
+// ---------------------------------------------------------------------------
+
+/** Retorna um item do portfólio pelo slug, ou undefined se não existir. */
 export function getPortfolioBySlug(slug: string): PortfolioItem | undefined {
   return MOCK_PORTFOLIO.find((item) => item.slug === slug)
 }
