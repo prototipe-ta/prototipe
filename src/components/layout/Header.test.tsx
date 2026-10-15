@@ -79,7 +79,7 @@ describe('Header', () => {
       navigation.getByRole('link', { name: 'Quero fazer parte' }),
     ).toHaveAttribute('href', '/processo-seletivo')
     expect(
-      screen.getByRole('link', { name: 'Solicitar orçamento' }),
+      screen.getByRole('link', { name: 'Quero contratar' }),
     ).toHaveAttribute('href', '/contato')
     expect(
       screen.getByRole('link', { name: 'Pular para o conteúdo' }),

@@ -74,10 +74,10 @@ export function Header() {
             to="/contato"
             className={cn(
               buttonVariants(),
-              'hidden min-h-11 px-4 motion-reduce:transition-none xl:inline-flex',
+              'hidden min-h-11 min-w-42 rounded-full bg-brand-purple px-6 text-brand-paper hover:bg-brand-purple/90 motion-reduce:transition-none xl:inline-flex',
             )}
           >
-            Solicitar orçamento
+            Quero contratar
           </NavLink>
           <ThemeToggle />
           <Sheet
@@ -135,10 +135,10 @@ export function Header() {
                   onClick={closeMenu}
                   className={cn(
                     buttonVariants(),
-                    'min-h-11 motion-reduce:transition-none',
+                    'min-h-11 rounded-full bg-brand-purple px-6 text-brand-paper hover:bg-brand-purple/90 motion-reduce:transition-none',
                   )}
                 >
-                  Solicitar orçamento
+                  Quero contratar
                 </Link>
                 <NavLink
                   to="/processo-seletivo"
