@@ -1,32 +1,51 @@
-import { useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
-function Navigate() {
-    const navigate = useNavigate()
+const NAVIGATION_LINKS = [
+  { to: '/', label: 'Início' },
+  { to: '/servicos', label: 'Serviços' },
+  { to: '/quem-somos', label: 'Quem somos' },
+  { to: '/portfolio', label: 'Portfólio' },
+  { to: '/blog', label: 'Blog' },
+  { to: '/contato', label: 'Contato' },
+  { to: '/processo-seletivo', label: 'Quero fazer parte' },
+] as const
 
-    return (
-        <nav aria-label="Navegação principal" className="flex flex-wrap justify-center gap-4">
-            <Button onClick={() => navigate('/servicos')}>
-                Serviços
-            </Button>
-            <Button variant="secondary" onClick={() => navigate('/portfolio')}>
-                Portfólio
-            </Button>
-            <Button variant="secondary" onClick={() => navigate('/blog')}>
-                Blog
-            </Button>
-            <Button variant="outline" onClick={() => navigate('/quem-somos')}>
-                Quem Somos
-            </Button>
-            <Button variant="outline" onClick={() => navigate('/processo-seletivo')}>
-                Processo Seletivo
-            </Button>
-            <Button variant="default" size="lg" onClick={() => navigate('/contato')}>
-                Entre em Contato
-            </Button>
-        </nav>
-    )
+interface NavigateProps {
+  mobile?: boolean
+  onNavigate?: () => void
+}
+
+function Navigate({ mobile = false, onNavigate }: NavigateProps) {
+  return (
+    <nav aria-label={mobile ? 'Navegação móvel' : 'Navegação principal'}>
+      <ul className={cn('flex gap-1', mobile ? 'flex-col' : 'items-center')}>
+        {NAVIGATION_LINKS.filter(
+          ({ to }) => !mobile || to !== '/processo-seletivo',
+        ).map(({ to, label }) => (
+          <li key={to}>
+            <NavLink
+              to={to}
+              end={to === '/'}
+              onClick={onNavigate}
+              className={({ isActive }) =>
+                cn(
+                  'flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground motion-reduce:transition-none',
+                  mobile && 'text-base',
+                  isActive
+                    ? 'bg-accent text-accent-foreground underline decoration-2 underline-offset-4'
+                    : 'text-muted-foreground',
+                )
+              }
+            >
+              {label}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
 }
 
 export default Navigate
